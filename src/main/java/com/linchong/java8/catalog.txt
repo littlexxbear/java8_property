@@ -1,0 +1,11 @@
+character_01
+    lambda表达式出现的背景
+    初步了解lambda表达式
+character_02 --lambda表达式精讲
+    1.lambda表达式语法
+    2.where、how
+    3.execute around pattern
+    4.函数式接口（Functional interfaces）
+    5.方法引用（Method References）
+    6.类型推导（Type inference）
+    7.组合lambda表达式（Composing lambdas）

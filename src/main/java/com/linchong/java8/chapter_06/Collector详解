@@ -1,0 +1,54 @@
+# Collector的功能
+1.聚合和汇总stream元素为一个单一的值
+2.对元素进行分组
+3.元素分片
+
+
+# Collector API详解
+1. averageingDouble(ToDoubleFunction<? super T> mapper)
+2. averagingInt(ToIntFunction<? super T) mapper)
+3. averagingLong(ToLongFunction<? super T> mapper)
+4. collectiongAndThen(Collector<T,A,R> downstream,Function<R,RR> finisher)
+5. counting()
+6. groupingBy(Function<? supper T,? extends K> classifier)
+7. groupingBy(Function<? super T,? extends K> classifier,Collector<? super T,A,D> downstream)
+8. groupingBy(Function<? super T,? extends K> classifier,Supplier<M> mapFactory,Collector)
+
+groupingByConcurrent(Function<? super T,? extend K> classifier)
+groupingByConcurrent(Function<? super T,? extends K> classifier,Collector<? super T,A,D> downstream)
+groupingByConcurrent(Function<? super T,? extends K> classifier,Supplier<M> mapFactory,Collector<? super T,A,D> downstream)
+joining():对stream中的数据进行连接
+joining(CharSequence delimiter):对stream中的数据进行连接,并指定分隔符
+joining(CharSequence delimiter，CharSequence prefix,CharSequence suffix):对stream中的数据进行连接,并指定分隔符和整体加前后缀
+mapping(Function<? super T,? extends U> mapper,Collector <? super U,A,R> downstream)
+maxBy(Comparator<? super T> comparator)
+minBy(Comparator<? super T> comparator)
+
+
+partitioningBy(Predicate<? super T> predicate)
+partitioningBy(Predicate<? super T> predicate,Collector<? super T,A,D> downstream)
+reducing(BinaryOperator<T> op)
+reducing(T ideantity,BinaryOperator<T> op)
+reducing(T ideantity,Function<? supper T,? extends U> mapper,BinaryOperator<T> op)
+summarizingDouble(ToDoubleFunction<? super T> mapper)
+summarizingDouble(ToIntFunction<? super T> mapper)
+summarizingDouble(ToLongFunction<? super T> mapper)
+
+summingInt(ToIntFunction<? super T> mapper)
+summingLong(ToLongFunction<? super T> mapper)
+summingDouble(ToDoubleFunction<? super T> mapper)
+toCollection(Supplier<C> collectionFactory)
+//产生多个map,相同的会进行merge
+toConcurrentMap(Function<? super T,? extends K> keyMapper,Function<? super T,? extend U> valueMapper)
+toConcurrentMap(Function<? super T, ? extends K> keyMapper,
+                                    Function<? super T, ? extends U> valueMapper,
+                                    BinaryOperator<U> mergeFunction)
+
+toConcurrentMap(Function<? super T, ? extends K> keyMapper,
+                                                       Function<? super T, ? extends U> valueMapper,
+                                                       BinaryOperator<U> mergeFunction,
+                                                       Supplier<M> mapSupplier)
+toList()
+toSet()
+
+

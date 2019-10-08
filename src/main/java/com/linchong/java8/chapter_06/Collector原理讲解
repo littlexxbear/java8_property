@@ -1,0 +1,44 @@
+Collector:接口提供者
+//T:传入的数据类型，Stream流中传入的是什么类型，它就是什么类型。举例，IntStream,Collector<T>,即经过了map,如果是Integer，则就是Integer
+//A:累加器，产生一个Consumer，交给累加器工作，类似于一个容器
+//R:最终返回的值
+T is the generic type of the iters in the stream to bo collected.
+
+A is the type of the accumulator,the object on which the partial result will be
+accumulated during the collection process.
+
+R is the type of the object(typically,but not always,the collection) resulting operation
+
+public interface Collector<T,A,R>{
+    Supplier<A> supplier();  Container，提供者
+
+    BiConsumer<A,T> accumulator(); 累加器
+    Function<A,R> finisher();  最终返回的结果
+    BinaryOperator<A> combiner();  聚合
+    Set<Characteristics> characteristics(); collector的特征
+}
+
+三个特征值
+CONCURRENT:并行处理
+UNORDERED:是否对数据流中的数据进行排序,一般保持原样，在外面单独做
+IDENTITY_FINISH:传进是什么——返回的数据就是什么
+
+eg:
+    public static <T>
+    Collector<T, ?, List<T>> toList() {
+        return new CollectorImpl<>((Supplier<List<T>>) ArrayList::new, List::add,
+                                   (left, right) -> { left.addAll(right); return left; },
+                                   CH_ID);
+    }
+    参数含义解析：
+        传入一个Supplier，它的容器是ArrayList
+        List:add:叠加器,容器中的数据通过它的add方法来进行叠加
+        left,right:并发操作，有两个结果，始终是将结果归并到左侧得出结果并返回 CH_ID
+
+流程：
+    1.通过supplier创建一个容器  A Container = collector.supplier().get();
+    2.判断stream中是否还有元素，如果有，将元素交给accumulator去执行，不断重复这个过程，直到
+    没有元素为止。迭代器BinaryOperator，两个入参，一个出参
+    3.得到步骤二产生的值 R result = collector.finisher().apply(accumulator);
+    4.返回R
+

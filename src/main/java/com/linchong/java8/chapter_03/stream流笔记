@@ -1,0 +1,51 @@
+# Streaming流
+
+  0.简单举例：筛选并按照重量排序，以名字输出为一个list
+     return list.stream().filter(d -> d.getCalories()<100).sorted(Comparator.comparing(Demo::getWeight))
+        .map(Demo::getName).collect(toList());
+  1.什么是Stream流：升级的Java API,更好的操作Collection,并行化，fork-join机制
+    # default Stream<E> stream(){ return StreamSupport.stream(spliterator(),false);
+    # spliterator根据cpu核数，划分成不同列表，把不同的列表交给不同的cpu,不同的线程，并行处理
+  2.Stream定义：a sequence of elements from a source that supports data processing opreations
+    a.Sequence of elements:like collection
+    b.Source:Streams consume from a data-providing source such as collections,arrays,I/Oresources
+    c.Data processing operations:Steams support database-like operations and common operations from
+    functional programming languages to manipulate data,like filter,map,reduce,find,match,sort and so on
+    exception:
+    a.Pipelining:流式操作，返回stream自身，允许链式操作,lazy式调用
+    b.Internal iteration：所有动作都发生在内部
+    特性：
+       Traversable only once:操作只一次，操作流只能操作一次,一下操作会报错
+        Stream<Demo> stream = list.stream();
+        stream.forEach.forEach(System.out::println);
+        stream.forEach.forEach(System.out::println);
+    操作：分为两类，Intermediate（每次会产生一个新的stream） vs terminal operations（stream会中断）
+        filter,map,limit,collect.
+        1.intermediate举例：
+        		List<String> result = menu.stream().filter(d -> {
+        			System.out.println("filtering->" + d.getName());
+        			return d.getCalories() > 300;
+        		}).map(d -> {
+        					System.out.println("map->" + d.getName());
+        					return d.getName();
+        		}).limit(3).collect(toList());
+            运行结果：
+                filtering->pork
+                 map->pork
+                 filtering->beef
+                 map->beef
+                 filtering->chicken
+                 map->chicken
+        2.terminal举例：会报错
+                Stream<Dish> stream = menu.stream();
+        		stream.forEach(System.out::println);
+        		stream.forEach(System.out::println);
+  3.构建一个Stream
+        a.通过Collection的形式创建
+        b.通过value创建
+        c.通过array创建
+        d.通过file创建
+        e.通过iterate创建
+        f.通过genrate创建
+        g.创建一个自定义的genrate
+  4.Stream的具体使用（filter/distinct/skip/limit/map/flatmap）

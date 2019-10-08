@@ -1,0 +1,36 @@
+1.lambda表达式语法
+        lambda表达式语法,以(o1,o2) -> o1.getColor().compareTo(o2.getColor());为例
+                参数构成：parameter list：o1,o2
+                lambda Body: o1.getColor().compareTo(o2.getColor())
+                arrow: ->
+        泛化后如下：
+            (parameters) -> expression
+            (parameters) -> {statments;}
+            ()->{}
+        Function和Predicate:
+            public interface Predicate<T>{ boolean test(T t); }
+            public interface Function<T,R>{ R apply(T t);}
+
+            两者可以等价：
+            Function<Apple,Boolean> f = (a) -> a.getColor().equals("green");
+            Predicate<Apple> p = a -> a.getColor().equals("green");
+        Supplier: 只是get一个东西
+            public interface Supplier<T>{
+                T get();
+            }
+            eg: Supplier<Apple> s = Apple:new;
+        java.util下的Function包和Stream包下的类，实现并行（Fork-Join机制）
+
+2.where、how（如何使用，即在哪里使用和如何使用）
+        2.1 什么样的接口是FunctionalInterface?
+            只有一个抽象的方法，default和static方法除外（1.8新特性）
+        2.2 常见的方法
+            Predicate boolean test(T t);
+            Consumer  void accept(T t);
+            Function<T,R> R apply(T t);
+            Supplier<T> T get();
+3.execute around pattern
+4.函数式接口（Functional interfaces）
+5.方法引用（Method References）
+6.类型推导（Type inference）
+7.组合lambda表达式（Composing lambdas）
